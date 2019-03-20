@@ -1,0 +1,37 @@
+---
+
+- name: replace default configure file
+  template: 
+    src: nginx_fpm.j2
+    dest: /etc/nginx/sites-available/default
+    owner: root
+    group: root
+    mode: 0644
+
+- name: setup php-fpm
+  shell: |
+          sed -i "s/;pm.max_requests = 500/pm.max_requests = 10240/g" "/etc/php/{{ php_version }}/fpm/pool.d/www.conf"
+          sed -i "s/pm.max_spare_servers = 3/pm.max_spare_servers = 10/g" "/etc/php/{{ php_version }}/fpm/pool.d/www.conf"
+          sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 30/g" "/etc/php/{{ php_version }}/fpm/pool.d/www.conf" 
+
+- name: mysql service enable start
+  service: 
+    name: mysql
+    state: started
+    enable: yes
+
+- name: nginx service enable start
+  service:
+    name: nginx
+    state: started
+    enable: yes
+
+- name: php-fpm enable start
+  service:
+    name: "php{{ php_version }}-fpm"
+    state: started
+    enable: true
+
+- name: mysql account create
+  shell: |
+    mysql -uroot -e "grant all on * to '{{ MYSQL_ADMIN }}'@'{{ MYSQL_HOST | default('localhost') }}' identified by '{{ MYSQL_PASSWD }}';flush privileges;"

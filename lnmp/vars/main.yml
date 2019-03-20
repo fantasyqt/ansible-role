@@ -1,0 +1,9 @@
+---
+# vars file for lnmp
+php_page_port: 80
+php_version: 7.2
+php_root: "/var/www/html"
+MYSQL_PASSWD: "root"
+MYSQL_ADMIN: admin
+MYSQL_HOST: localhost
+import_vars: php-install-list.yml

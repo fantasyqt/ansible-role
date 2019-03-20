@@ -1,0 +1,23 @@
+---
+# tasks file for lnmp
+
+# set env
+- include_vars: ubuntu-18.yml
+  when: ansible_distribution == "Ubuntu"
+
+
+# setup ubuntu
+- include_tasks: setup-ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+# install php nginx mysql
+- include_tasks: "{{ item }}"
+  with_items:
+    - install-ubuntu-nginx.yml
+    - install-ubuntu-php.yml
+    - install-ubuntu-mysql.yml
+  when: ansible_distribution == "Ubuntu"
+
+# setup lnmp
+- include_tasks: setup-ubuntu-lnmp.yml
+  when: ansible_distribution == "Ubuntu"

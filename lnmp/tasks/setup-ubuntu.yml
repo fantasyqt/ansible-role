@@ -1,0 +1,10 @@
+---
+
+- name: setup ubuntu sourcelist
+  become: true
+  shell: sed -i "s/archive.ubuntu.com/{{ source_list }}/g" /etc/apt/sources.list
+
+- name: update apt cache
+  become: true
+  apt:
+    update_cache: true

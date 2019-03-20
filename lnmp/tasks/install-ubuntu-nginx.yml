@@ -1,0 +1,9 @@
+---
+
+- name: apt install nginx server
+  become: yes
+  apt:
+    name: nginx
+    state: latest
+  when: 
+    - ansible_distribution == 'Ubuntu'

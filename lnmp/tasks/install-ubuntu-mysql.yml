@@ -1,0 +1,11 @@
+---
+
+- name: apt install mysql
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - mysql-client
+    - mysql-server
+  when:
+    - ansible_distribution == "Ubuntu"

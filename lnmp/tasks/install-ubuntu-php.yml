@@ -1,0 +1,16 @@
+---
+
+- name: apt install php
+  apt:
+    name: "{{ item }}"
+    state: present
+  when:
+    - ansible_distribution == "Ubuntu"
+  with_items:
+    - "php{{ php_version }}"
+    - "php{{ php_version }}-curl"
+    - "php{{ php_version }}-fpm"
+    - "php{{ php_version }}-mysql"
+    - "php{{ php_version }}-common"
+    - "php{{ php_version }}-xml"
+    - "php{{ php_version }}-zip"
